@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { BabyHeartbeatNst } from "../../screens/baby-heartbeat-nst";
 import { BabyKicks } from "../../screens/baby-kicks";
 import { Information } from "../../screens/information";
 import { PastRecords } from "../../screens/past-records";
@@ -10,26 +11,31 @@ const TrackStack = createStackNavigator();
 const header = () => null;
 
 export const TrackRoute = () => (
-    <TrackStack.Navigator>
-        <TrackStack.Screen
-            name={navigations.TRACK}
-            component={Track}
-            options={{ header }}
-        />
-        <TrackStack.Screen
-            name={navigations.BABY_KICKS}
-            component={BabyKicks}
-            options={{ header }}
-        />
-        <TrackStack.Screen
-            name={navigations.PAST_RECORDS}
-            component={PastRecords}
-            options={{ header }}
-        />
-        <TrackStack.Screen
-            name={navigations.INFORMATION}
-            component={Information}
-            options={{ header }}
-        />
-    </TrackStack.Navigator>
-)
+	<TrackStack.Navigator>
+		<TrackStack.Screen
+			name={navigations.TRACK}
+			component={Track}
+			options={{ header }}
+		/>
+		<TrackStack.Screen
+			name={navigations.BABY_KICKS}
+			component={BabyKicks}
+			options={{ header }}
+		/>
+		<TrackStack.Screen
+			name={navigations.BABY_HEARTBEAT_NST}
+			component={BabyHeartbeatNst}
+			options={{ header }}
+		/>
+		<TrackStack.Screen
+			name={navigations.PAST_RECORDS}
+			component={PastRecords}
+			options={{ header }}
+		/>
+		<TrackStack.Screen
+			name={navigations.INFORMATION}
+			component={Information}
+			options={{ header }}
+		/>
+	</TrackStack.Navigator>
+);

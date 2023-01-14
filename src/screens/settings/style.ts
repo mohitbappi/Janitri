@@ -17,7 +17,7 @@ export const createStyleSheet = (theme: ThemeProps) =>
 		sectionView: {
 			flexDirection: "row",
 			justifyContent: "space-between",
-			paddingHorizontal: normalScale(16),
+			paddingHorizontal: normalScale(10),
 			borderBottomColor: hexToRgbA(theme.colors.black, 20),
 			borderBottomWidth: theme.borderWidth.borderWidth1p5,
 			paddingVertical: verticalScale(16),

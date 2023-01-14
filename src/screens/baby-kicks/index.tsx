@@ -12,10 +12,14 @@ import { ImageComponent } from "../../components/image-component";
 import { Loader } from "../../components/loader";
 import { SecondaryButton } from "../../components/secondary-button";
 import { navigations } from "../../config/app-navigation/constant";
+import { useCreateDataSet } from "../../network/hooks/track-session-service/use-create-data-set";
 import { useEndSession } from "../../network/hooks/track-session-service/use-end-session";
 import { useStartSession } from "../../network/hooks/track-session-service/use-start-session";
 import { useUserProfile } from "../../network/hooks/user-service/use-user-profile";
-import { setKickData } from "../../network/reducers/baby-kicks-reducer";
+import {
+	setKickData,
+	setKickDataSet,
+} from "../../network/reducers/baby-kicks-reducer";
 import { StoreType } from "../../network/reducers/store";
 import { alert } from "../../utils/alert";
 import { getTimeFromDate, toTwoDigitNumber } from "../../utils/common";
@@ -31,7 +35,7 @@ export const BabyKicks = (props: BabyKicksProps) => {
 	const styles = createStyleSheet(theme);
 	const { navigation } = props || {};
 	const dispatch = useDispatch();
-	const { kickData, timer } = useSelector(
+	const { kickData, timer, kickDataSet } = useSelector(
 		(state: StoreType) => state.babyKicksReducer
 	);
 
@@ -57,6 +61,8 @@ export const BabyKicks = (props: BabyKicksProps) => {
 	const { id } = userProfile || {};
 
 	const { mutateAsync: onStartSession, isLoading } = useStartSession();
+
+	const { mutateAsync: onCreateDataSet } = useCreateDataSet();
 
 	const { mutateAsync: onEndSession, isLoading: endSessionLoading } =
 		useEndSession();
@@ -93,7 +99,27 @@ export const BabyKicks = (props: BabyKicksProps) => {
 		]);
 	};
 
+	const createDataSet = async () => {
+		const payload = {
+			userId: id,
+			sessionId,
+			body: {
+				data_time: new Date(),
+				params_data: {
+					baby_kicks: {
+						values: kickDataSet,
+						meta_data: {},
+					},
+				},
+			},
+		};
+
+		await onCreateDataSet(payload);
+	};
+
 	const endSession = async () => {
+		await createDataSet();
+
 		const payload = {
 			userId: id,
 			sessionId,
@@ -140,13 +166,21 @@ export const BabyKicks = (props: BabyKicksProps) => {
 		}
 
 		dispatch(
-			setKickData({ ...kickData, kicks: kickData?.kicks + 1, first: time })
+			setKickData({
+				...kickData,
+				kicks: kickData?.kicks + 1,
+				first: time,
+				last: getTimeFromDate(new Date()),
+			})
 		);
+
+		const epochTime = new Date().getTime() / 1000.0;
+		dispatch(setKickDataSet({ [epochTime]: "200" }));
 	};
 
 	const getKickProgress = () => {
-		if (kickData?.kicks < 10) {
-			return kickData?.kicks * 10;
+		if (kickData?.kicks < 20) {
+			return kickData?.kicks * 5;
 		}
 		return 100;
 	};
@@ -158,20 +192,18 @@ export const BabyKicks = (props: BabyKicksProps) => {
 	return (
 		<View style={styles.container}>
 			<Loader showOverlay visible={isLoading || endSessionLoading} />
-			<View>
-				<Header
-					onPressBack={() => navigation.goBack()}
-					title={strings.babyKicks}
-					hasInfoIcon
-					onPressInfo={() =>
-						navigationRouter([{ name: navigations.INFORMATION }])
-					}
-				/>
-			</View>
+			<Header
+				onPressBack={() => navigation.goBack()}
+				title={strings.babyKicks}
+				hasInfoIcon
+				onPressInfo={() =>
+					navigationRouter([{ name: navigations.INFORMATION }])
+				}
+			/>
 			<View style={styles.subHeader}>
 				{data.map((ele, index) => {
 					return (
-						<View>
+						<View key={ele?.label}>
 							<Text style={[styles.value, index !== 0 && styles.black]}>
 								{ele?.value}
 							</Text>

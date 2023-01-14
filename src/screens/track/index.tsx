@@ -31,7 +31,12 @@ export const Track = () => {
 				</View>
 				<ImageComponent source={arrowBack} style={styles.arrowBack} />
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.cardContainer}>
+			<TouchableOpacity
+				style={styles.cardContainer}
+				onPress={() =>
+					navigationRouter([{ name: navigations.BABY_HEARTBEAT_NST }])
+				}
+			>
 				<View style={styles.row}>
 					<ImageComponent source={heartBeat} style={styles.image} />
 					<Text style={styles.text}>{strings.babyHeartbeat}</Text>

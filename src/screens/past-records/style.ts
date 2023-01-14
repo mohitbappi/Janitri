@@ -28,7 +28,7 @@ export const createStyleSheet = (theme: ThemeProps) =>
 			width: normalScale(101),
 		},
 		kicks: {
-			marginLeft: normalScale(18),
+			marginLeft: normalScale(20),
 		},
 		container: {
 			flex: 1,

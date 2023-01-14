@@ -5,11 +5,10 @@ import { ThemeProps } from "../../theme/theme";
 export const createStyleSheet = (theme: ThemeProps) =>
 	StyleSheet.create({
 		container: {
-			height: verticalScale(40),
-			justifyContent: "space-between",
+			flex: 1,
 			backgroundColor: theme.colors.white,
-			flexDirection: "row",
-			alignItems: "center",
+		},
+		comingSoonView: {
 			shadowColor: theme.colors.black,
 			shadowOpacity: theme.opacity.opacity2,
 			shadowRadius: theme.borderRadius.radius4,
@@ -18,26 +17,22 @@ export const createStyleSheet = (theme: ThemeProps) =>
 				height: verticalScale(1),
 			},
 			elevation: 5,
-			paddingHorizontal: normalScale(10),
+			backgroundColor: theme.colors.white,
+			paddingHorizontal: normalScale(16),
+			paddingVertical: verticalScale(16),
+			marginHorizontal: normalScale(16),
+			borderRadius: theme.borderRadius.radius12,
+			marginTop: verticalScale(160),
 		},
-		row: {
-			flexDirection: "row",
-			alignItems: "center",
+		comingSoon: {
+			height: normalScale(150),
+			width: normalScale(150),
+			alignSelf: "center",
 		},
-		arrowBack: {
-			height: normalScale(24),
-			width: normalScale(24),
-			transform: [{ rotate: "180deg" }],
-			marginRight: normalScale(10),
-		},
-		title: {
-			color: theme.colors.black,
+		message: {
 			fontSize: theme.fontSize.font16,
-			fontWeight: "500",
-		},
-		info: {
-			height: normalScale(20),
-			width: normalScale(20),
-			marginRight: normalScale(8),
+			color: theme.colors.primaryColor,
+			alignSelf: "center",
+			fontWeight: "600",
 		},
 	});
