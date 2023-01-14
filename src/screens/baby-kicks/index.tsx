@@ -22,7 +22,7 @@ import {
 } from "../../network/reducers/baby-kicks-reducer";
 import { StoreType } from "../../network/reducers/store";
 import { alert } from "../../utils/alert";
-import { getTimeFromDate, toTwoDigitNumber } from "../../utils/common";
+import { convertUTCToIST, getTimeFromDate, toTwoDigitNumber } from "../../utils/common";
 import { navigationRouter } from "../../utils/navigation-router";
 import { createStyleSheet } from "./style";
 
@@ -124,7 +124,7 @@ export const BabyKicks = (props: BabyKicksProps) => {
 			userId: id,
 			sessionId,
 			body: {
-				end_time: new Date(),
+				end_time: convertUTCToIST(new Date()),
 				status: "completed",
 			},
 		};
@@ -147,7 +147,7 @@ export const BabyKicks = (props: BabyKicksProps) => {
 			const payload = {
 				userId: id,
 				body: {
-					start_time: new Date(),
+					start_time: convertUTCToIST(new Date()),
 					name: "Session",
 					category: "baby_kicks",
 				},
