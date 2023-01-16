@@ -33,16 +33,17 @@ export const Settings = () => {
 					`mailto:${email}?subject=Janitri for Mothers App: Feedback`
 				),
 		},
-		{
-			label: strings.aboutJanitri,
-			action: () =>
-				navigationRouter([
-					{
-						name: navigations.GENERIC_WEB_VIEW,
-						params: { header: strings.aboutJanitri, uri: janitriWebsiteUrl },
-					},
-				]),
-		},
+		// Todo:- Will use it later.
+		// {
+		// 	label: strings.aboutJanitri,
+		// 	action: () =>
+		// 		navigationRouter([
+		// 			{
+		// 				name: navigations.GENERIC_WEB_VIEW,
+		// 				params: { header: strings.aboutJanitri, uri: janitriWebsiteUrl },
+		// 			},
+		// 		]),
+		// },
 		{
 			label: strings.contactUs,
 			action: () =>

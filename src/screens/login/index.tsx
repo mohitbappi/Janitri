@@ -62,7 +62,7 @@ export const Login = () => {
 			<Loader visible={isLoading} showOverlay />
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "position" : "height"}
-				keyboardVerticalOffset={-verticalScale(50)}
+				keyboardVerticalOffset={verticalScale(0)}
 			>
 				<ImageComponent source={janitriLogo} style={styles.janitriLogo} />
 				<ImageComponent source={welcomeLogo} style={styles.welcomeLogo} />
@@ -78,19 +78,19 @@ export const Login = () => {
 					onPress={onLogin}
 					ctaLabel={strings.continue}
 				/>
-				<Text style={styles.bottom}>
-					{strings.tappingInfo}
-					<View style={styles.footer}>
-						<TouchableOpacity activeOpacity={0.8} onPress={openTnC}>
-							<Text style={styles.hyperlink}> {strings.tnc}</Text>
-						</TouchableOpacity>
-						<Text>{` ${strings.and} `}</Text>
-						<TouchableOpacity activeOpacity={0.8} onPress={openPrivacyPolicy}>
-							<Text style={styles.hyperlink}> {strings.privacy}</Text>
-						</TouchableOpacity>
-					</View>
-				</Text>
 			</KeyboardAvoidingView>
+			<Text style={styles.bottom}>
+				{strings.tappingInfo}
+				<View style={styles.footer}>
+					<TouchableOpacity activeOpacity={0.8} onPress={openTnC}>
+						<Text style={styles.hyperlink}> {strings.tnc}</Text>
+					</TouchableOpacity>
+					<Text>{` ${strings.and} `}</Text>
+					<TouchableOpacity activeOpacity={0.8} onPress={openPrivacyPolicy}>
+						<Text style={styles.hyperlink}> {strings.privacy}</Text>
+					</TouchableOpacity>
+				</View>
+			</Text>
 		</View>
 	);
 };

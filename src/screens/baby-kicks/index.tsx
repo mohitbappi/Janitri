@@ -19,10 +19,15 @@ import { useUserProfile } from "../../network/hooks/user-service/use-user-profil
 import {
 	setKickData,
 	setKickDataSet,
+	setSessionId,
 } from "../../network/reducers/baby-kicks-reducer";
 import { StoreType } from "../../network/reducers/store";
 import { alert } from "../../utils/alert";
-import { convertUTCToIST, getTimeFromDate, toTwoDigitNumber } from "../../utils/common";
+import {
+	convertUTCToIST,
+	getTimeFromDate,
+	toTwoDigitNumber,
+} from "../../utils/common";
 import { navigationRouter } from "../../utils/navigation-router";
 import { createStyleSheet } from "./style";
 
@@ -35,7 +40,7 @@ export const BabyKicks = (props: BabyKicksProps) => {
 	const styles = createStyleSheet(theme);
 	const { navigation } = props || {};
 	const dispatch = useDispatch();
-	const { kickData, timer, kickDataSet } = useSelector(
+	const { kickData, timer, kickDataSet, sessionId } = useSelector(
 		(state: StoreType) => state.babyKicksReducer
 	);
 
@@ -55,7 +60,6 @@ export const BabyKicks = (props: BabyKicksProps) => {
 		onEnd: onSessionAutoComplete,
 	});
 	const { minutes, seconds } = timerData || {};
-	const [sessionId, setSessionId] = useState(0);
 
 	const { data: userProfile, refetch: fetchUserProfile } = useUserProfile();
 	const { id } = userProfile || {};
@@ -156,7 +160,7 @@ export const BabyKicks = (props: BabyKicksProps) => {
 			try {
 				const res = await onStartSession(payload);
 				const { id: sessionIdNumber } = (res?.data as { id: number }) || {};
-				setSessionId(sessionIdNumber);
+				dispatch(setSessionId(sessionIdNumber));
 			} catch {
 				// Error
 			}

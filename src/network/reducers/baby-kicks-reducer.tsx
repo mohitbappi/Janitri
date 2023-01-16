@@ -15,6 +15,7 @@ export interface BabyKicksState {
 	kickData: KickData;
 	timer: Timer;
 	kickDataSet: object;
+	sessionId: number;
 }
 
 export const initialState: BabyKicksState = {
@@ -28,6 +29,7 @@ export const initialState: BabyKicksState = {
 		seconds: 0,
 	},
 	kickDataSet: {},
+	sessionId: 0,
 };
 
 const babyKicksSlice = createSlice({
@@ -46,11 +48,15 @@ const babyKicksSlice = createSlice({
 			...state,
 			timer: action.payload,
 		}),
+		setSessionId: (state, action: PayloadAction<number>) => ({
+			...state,
+			sessionId: action.payload,
+		}),
 		endTimer: () => initialState,
 	},
 });
 
 export const babyKicksReducer = babyKicksSlice.reducer;
 
-export const { setKickData, setKickDataSet, setTimer, endTimer } =
+export const { setKickData, setKickDataSet, setTimer, endTimer, setSessionId } =
 	babyKicksSlice.actions;
