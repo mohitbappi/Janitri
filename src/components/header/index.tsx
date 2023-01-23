@@ -7,7 +7,7 @@ import {
 	ViewStyle,
 } from "react-native";
 import { useAppTheme } from "../../app-hooks/use-app-theme";
-import { arrowBack, info } from "../../assets/images";
+import { arrowBack, info, threeDot } from "../../assets/images";
 import { ImageComponent } from "../image-component";
 import { createStyleSheet } from "./style";
 
@@ -18,6 +18,8 @@ export interface HeaderProps {
 	onPressInfo?: () => void;
 	onPressBack?: () => void;
 	hasBackIcon?: boolean;
+	hasThreeDotIcon?: boolean;
+	onPressThreeDot?: () => void;
 }
 
 export const Header = (props: HeaderProps) => {
@@ -30,6 +32,8 @@ export const Header = (props: HeaderProps) => {
 		onPressInfo,
 		onPressBack,
 		hasBackIcon = true,
+		hasThreeDotIcon,
+		onPressThreeDot,
 	} = props || {};
 
 	return (
@@ -45,6 +49,11 @@ export const Header = (props: HeaderProps) => {
 			{hasInfoIcon && (
 				<TouchableOpacity activeOpacity={0.8} onPress={onPressInfo}>
 					<ImageComponent source={info} style={styles.info} />
+				</TouchableOpacity>
+			)}
+			{hasThreeDotIcon && (
+				<TouchableOpacity activeOpacity={0.8} onPress={onPressThreeDot}>
+					<ImageComponent source={threeDot} style={styles.threeDot} />
 				</TouchableOpacity>
 			)}
 		</View>

@@ -40,4 +40,8 @@ export const createStyleSheet = (theme: ThemeProps) =>
 			width: normalScale(20),
 			marginRight: normalScale(8),
 		},
+		threeDot: {
+			height: normalScale(18),
+			width: normalScale(18),
+		}
 	});

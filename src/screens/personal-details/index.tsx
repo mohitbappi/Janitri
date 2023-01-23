@@ -1,15 +1,19 @@
 import { NavigationContainerRef } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { useAppTheme } from "../../app-hooks/use-app-theme";
+import { logoutUser } from "../../app-hooks/use-logout";
 import { useUserRegistered } from "../../app-hooks/use-user-registered";
 import { strings } from "../../assets/strings";
 import { ButtonComponent } from "../../components/button-component";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
 import { Loader } from "../../components/loader";
+import { navigations } from "../../config/app-navigation/constant";
+import { useDeleteAccount } from "../../network/hooks/user-service/use-delete-account";
 import { useUpdateUserProfile } from "../../network/hooks/user-service/use-update-user-profile";
 import { useUserProfile } from "../../network/hooks/user-service/use-user-profile";
+import { navigationRouter } from "../../utils/navigation-router";
 import { createStyleSheet } from "./style";
 
 export interface Params {
@@ -40,6 +44,10 @@ export const PersonalDetails = (props: PersonalDetailsProps) => {
 		week: "",
 	});
 	const { onSetUserRegistration } = useUserRegistered();
+	const [showMenu, setShowMenu] = useState(false);
+
+	const { mutateAsync: onDeleteAccount, isLoading: deleteAccountLoading } =
+		useDeleteAccount();
 
 	const { data, isFetching, refetch: fetchUserProfile } = useUserProfile();
 	const { age, first_name, pregnancy_week } = data || {};
@@ -100,16 +108,50 @@ export const PersonalDetails = (props: PersonalDetailsProps) => {
 				navigation.goBack();
 			} else {
 				onSetUserRegistration("true");
+				navigationRouter([
+					{ name: navigations.TRACK, params: { isResetNavigation: true } },
+				]);
 			}
 		}
 	};
 
+	const deleteAccount = async () => {
+		const res = await onDeleteAccount();
+
+		if (res?.isSuccess) {
+			logoutUser();
+		}
+	};
+
+	const onShowAlert = () => {
+		Alert.alert(
+			strings.deleteAccount,
+			strings.sureDeleteAccount,
+			[
+				{
+					onPress: () => null,
+					text: strings.cancel,
+				},
+				{
+					onPress: deleteAccount,
+					text: strings.ok,
+				},
+			],
+			{ cancelable: true }
+		);
+	};
+
 	return (
 		<View style={styles.container}>
-			<Loader visible={isFetching || isLoading} showOverlay={isLoading} />
+			<Loader
+				visible={isFetching || isLoading || deleteAccountLoading}
+				showOverlay={isLoading || deleteAccountLoading}
+			/>
 			<Header
 				onPressBack={() => navigation.goBack()}
 				title={fromProfile ? strings.profile : ""}
+				hasThreeDotIcon={fromProfile}
+				onPressThreeDot={() => setShowMenu(!showMenu)}
 			/>
 			<View style={[styles.innerContainer, fromProfile && styles.padding]}>
 				<Text style={styles.letsKnow}>
@@ -144,6 +186,15 @@ export const PersonalDetails = (props: PersonalDetailsProps) => {
 					onPress={updateUserProfile}
 				/>
 			</View>
+			{showMenu && (
+				<TouchableOpacity
+					onPress={onShowAlert}
+					activeOpacity={0.8}
+					style={styles.buttonView}
+				>
+					<Text style={styles.delete}>{strings.deleteAccount}</Text>
+				</TouchableOpacity>
+			)}
 		</View>
 	);
 };

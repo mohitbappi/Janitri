@@ -22,6 +22,7 @@ export const apiConstants = {
 		endUrl: "/keyar/monitoring-sessions/",
 		lastUrl: "/datasets/",
 	},
+	deleteAccount: '/accounts/delete/'
 };
 
 export const persistKeys = {

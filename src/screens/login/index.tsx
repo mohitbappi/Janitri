@@ -23,6 +23,7 @@ import { useLogin } from "../../network/hooks/user-service/use-login";
 import { verticalScale } from "../../theme/device/normalize";
 import { navigationRouter } from "../../utils/navigation-router";
 import { createStyleSheet } from "./style";
+import Toast from "react-native-toast-message";
 
 export const Login = () => {
 	const { theme } = useAppTheme();
@@ -32,10 +33,16 @@ export const Login = () => {
 	const { mutateAsync, isLoading } = useLogin();
 
 	const onLogin = async () => {
-		const res = await mutateAsync({ mobileNumber: `${countryCode}${mobile}` });
+		try {
+			const res = await mutateAsync({
+				mobileNumber: `${countryCode}${mobile}`,
+			});
 
-		if (res?.isSuccess) {
-			navigationRouter([{ name: navigations.OTP, params: { mobile } }]);
+			if (res?.isSuccess) {
+				navigationRouter([{ name: navigations.OTP, params: { mobile } }]);
+			}
+		} catch (err) {
+			Toast.show({ type: "error", text1: strings.contactJanitri });
 		}
 	};
 
@@ -91,6 +98,7 @@ export const Login = () => {
 					</TouchableOpacity>
 				</View>
 			</Text>
+			<Toast />
 		</View>
 	);
 };

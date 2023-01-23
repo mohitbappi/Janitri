@@ -59,4 +59,10 @@ export const strings = {
 	updateNow: "Update Now",
 	comingSoonMsg:
 		"We are currently developing this feature and will make sure to release it as soon as possible.\n\nMeanwhile, it is available on the Android App.\n\nThank you for your patience and understanding.",
+	deleteAccount: "Delete Account",
+	sureDeleteAccount: "Are you sure you want to delete your account?",
+	cancel: "Cancel",
+	ok: "Ok",
+	contactJanitri:
+		"Please contact Janitri(info@janitri.in) for recreation of your account.",
 };

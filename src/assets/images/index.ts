@@ -13,3 +13,4 @@ export { default as trackActive } from "./trackActive.png";
 export { default as trackInactive } from "./trackInactive.png";
 export { default as welcomeLogo } from "./welcomeLogo.png";
 export { default as comingSoon } from "./comingSoon.png";
+export { default as threeDot } from "./threeDot.png";
